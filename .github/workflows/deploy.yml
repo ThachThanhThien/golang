@@ -42,12 +42,7 @@ jobs:
           BASE_PATH: /${{ github.event.repository.name }}/
 
       - name: Configure Pages
-        # enablement: true turns on GitHub Pages (build type: GitHub Actions) on
-        # the first run using the workflow's pages:write token, so no manual
-        # Settings → Pages step is needed to bootstrap the site.
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
