@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-19",
+  "lessonId": "lesson-19",
+  "title": "The Memory Model, Escape Analysis, and Performance",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What decides whether a value goes on the stack or the heap in Go?",
+      "options": [
+        { "id": "a", "text": "The compiler's escape analysis" },
+        { "id": "b", "text": "The programmer, with explicit new/heap keywords" },
+        { "id": "c", "text": "The garbage collector at runtime" },
+        { "id": "d", "text": "It is always the heap" }
+      ],
+      "answer": "a",
+      "explanation": "Escape analysis places values that don't outlive their function on the stack, and promotes escaping values to the heap; observe it with -gcflags=-m."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "Is it safe to return a pointer to a local variable in Go?",
+      "options": [
+        { "id": "a", "text": "Yes — escape analysis moves the value to the heap so it stays valid" },
+        { "id": "b", "text": "No — it produces a dangling pointer, like in C" },
+        { "id": "c", "text": "Only for slices" },
+        { "id": "d", "text": "Only inside main" }
+      ],
+      "answer": "a",
+      "explanation": "Because the value's reference outlives the function, escape analysis allocates it on the heap and the GC keeps it alive — no dangling pointer."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "The memory model guarantees one goroutine sees another's writes only when synchronization establishes a ____-before relationship.",
+      "answer": ["happens", "happens-before"],
+      "explanation": "Happens-before, established by channels, mutexes, sync.Once, WaitGroup, and atomics, is what makes concurrent visibility well-defined; otherwise it's a data race."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "What is the golden rule before optimizing Go code?",
+      "options": [
+        { "id": "a", "text": "Measure first — profile and benchmark to find the real hotspots" },
+        { "id": "b", "text": "Rewrite everything in assembly" },
+        { "id": "c", "text": "Always add sync.Pool" },
+        { "id": "d", "text": "Disable the garbage collector" }
+      ],
+      "answer": "a",
+      "explanation": "Most bottlenecks aren't where you'd guess; clarity is the default and you optimize only proven hotspots identified by benchmarks and profiles."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which statements about Go's garbage collector and memory are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "The GC is a concurrent, low-latency mark-and-sweep collector" },
+        { "id": "b", "text": "GOGC (default 100) controls heap growth between collections" },
+        { "id": "c", "text": "Preallocating slices can reduce allocations" },
+        { "id": "d", "text": "You must manually free heap memory" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Go's GC is concurrent mark-and-sweep, GOGC tunes it, and preallocation cuts allocations. You never manually free — the GC does it."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each performance lever to its effect.",
+      "pairs": [
+        { "left": "make([]T, 0, n)", "right": "Fewer slice reallocations" },
+        { "left": "strings.Builder", "right": "Avoid per-iteration string allocation" },
+        { "left": "sync.Pool", "right": "Reuse temporaries in hot paths (measured)" },
+        { "left": "-gcflags=-m", "right": "Observe escape-analysis decisions" }
+      ],
+      "explanation": "Preallocation and Builder cut allocations, sync.Pool reuses objects at proven hotspots, and -gcflags=-m reveals what escapes."
+    }
+  ]
+}

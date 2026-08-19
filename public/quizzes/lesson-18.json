@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-18",
+  "lessonId": "lesson-18",
+  "title": "Building HTTP Services with net/http",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What single method defines the `http.Handler` interface?",
+      "options": [
+        { "id": "a", "text": "ServeHTTP(w http.ResponseWriter, r *http.Request)" },
+        { "id": "b", "text": "Handle(req, res)" },
+        { "id": "c", "text": "Route(path string)" },
+        { "id": "d", "text": "Do(r *http.Request)" }
+      ],
+      "answer": "a",
+      "explanation": "Anything with `ServeHTTP(w, r)` is an http.Handler; `http.HandlerFunc` adapts an ordinary function to that interface."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What routing capability did Go 1.22 add to the standard ServeMux?",
+      "options": [
+        { "id": "a", "text": "Patterns with the HTTP method and path wildcards (e.g. GET /users/{id})" },
+        { "id": "b", "text": "Regular-expression routes" },
+        { "id": "c", "text": "Automatic HTTPS" },
+        { "id": "d", "text": "Built-in authentication" }
+      ],
+      "answer": "a",
+      "explanation": "Go 1.22's mux matches method and path wildcards; wildcard values are read with r.PathValue."
+    },
+    {
+      "id": "q3",
+      "type": "ordering",
+      "prompt": "Order the steps of writing an HTTP response correctly.",
+      "items": [
+        { "id": "headers", "text": "Set response headers (e.g. Content-Type)" },
+        { "id": "status", "text": "Call WriteHeader(status)" },
+        { "id": "body", "text": "Write the response body" }
+      ],
+      "answer": ["headers", "status", "body"],
+      "explanation": "Headers first, then the status, then the body — writing the body first locks in an implicit 200 OK."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "You read a path wildcard like {id} inside a handler with r.____(\"id\").",
+      "answer": ["PathValue", "pathvalue"],
+      "explanation": "r.PathValue(\"id\") returns the value captured by the {id} wildcard in a Go 1.22+ mux pattern."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which are good practices for a production HTTP service? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Configure an http.Server with read/write/idle timeouts" },
+        { "id": "b", "text": "Return specific status codes with http.Error" },
+        { "id": "c", "text": "Add logging/recovery as composable middleware" },
+        { "id": "d", "text": "Use the default server with no timeouts" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Timeouts, precise status codes, and middleware are all good practice. The default server has no timeouts and is risky in production."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "What is HTTP middleware in Go?",
+      "options": [
+        { "id": "a", "text": "A function that wraps an http.Handler to add behavior, returning an http.Handler" },
+        { "id": "b", "text": "A database driver" },
+        { "id": "c", "text": "A special kind of goroutine" },
+        { "id": "d", "text": "A configuration file format" }
+      ],
+      "answer": "a",
+      "explanation": "Middleware takes an http.Handler and returns one that adds behavior (logging, auth, timing); because the types match, middleware composes."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-05",
+  "lessonId": "lesson-05",
+  "title": "Control Flow: if, for, switch",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "How many loop keywords does Go have?",
+      "options": [
+        { "id": "a", "text": "One — `for`, which covers all looping needs" },
+        { "id": "b", "text": "Three — for, while, do-while" },
+        { "id": "c", "text": "Two — for and while" },
+        { "id": "d", "text": "None — Go uses recursion" }
+      ],
+      "answer": "a",
+      "explanation": "`for` is Go's only loop keyword; it serves as a counting loop, a while loop, an infinite loop, and a range loop."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "By default, does a Go `switch` fall through to the next case?",
+      "options": [
+        { "id": "a", "text": "No — the matching case runs and the switch ends" },
+        { "id": "b", "text": "Yes — like C, it falls through unless you add break" },
+        { "id": "c", "text": "Only for integer cases" },
+        { "id": "d", "text": "Only inside a loop" }
+      ],
+      "answer": "a",
+      "explanation": "Go switches do not fall through by default (no `break` needed); use an explicit `fallthrough` if you want to continue into the next case."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "Ranging over a map visits its keys in a ____ order that can differ each run.",
+      "answer": ["randomized", "random", "randomised"],
+      "explanation": "Go randomizes map iteration order on purpose; if you need a stable order, collect the keys and sort them."
+    },
+    {
+      "id": "q4",
+      "type": "multiple-choice",
+      "prompt": "Which statements about Go control flow are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "`if` can carry a scoped init statement, e.g. `if err := f(); err != nil`" },
+        { "id": "b", "text": "Ranging over a string yields runes, with the index being a byte offset" },
+        { "id": "c", "text": "As of Go 1.22 each loop iteration has its own loop variable" },
+        { "id": "d", "text": "Braces are optional for one-line if bodies" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "if-init scopes a variable, `range` over a string gives runes, and Go 1.22 made loop variables per-iteration. Braces are always required in Go."
+    },
+    {
+      "id": "q5",
+      "type": "single-choice",
+      "prompt": "When you `range` over a string, what does the value variable hold?",
+      "options": [
+        { "id": "a", "text": "A rune (Unicode code point)" },
+        { "id": "b", "text": "A single byte always" },
+        { "id": "c", "text": "The whole string" },
+        { "id": "d", "text": "An int index only" }
+      ],
+      "answer": "a",
+      "explanation": "`for i, r := range s` yields runes; the index `i` is the byte offset, which can jump by more than one for multibyte characters."
+    },
+    {
+      "id": "q6",
+      "type": "ordering",
+      "prompt": "Order these `for` forms from most to least explicit (three-part → while → infinite).",
+      "items": [
+        { "id": "three", "text": "for i := 0; i < n; i++ { }" },
+        { "id": "while", "text": "for cond { }" },
+        { "id": "infinite", "text": "for { }" }
+      ],
+      "answer": ["three", "while", "infinite"],
+      "explanation": "Dropping the init and post clauses gives a while loop; dropping the condition too gives an infinite loop you exit with break or return."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-01",
+  "lessonId": "lesson-01",
+  "title": "What Is Go?",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Which description best fits Go?",
+      "options": [
+        { "id": "a", "text": "A compiled, statically typed, garbage-collected language" },
+        { "id": "b", "text": "An interpreted, dynamically typed scripting language" },
+        { "id": "c", "text": "A markup language for documents" },
+        { "id": "d", "text": "A database query language" }
+      ],
+      "answer": "a",
+      "explanation": "Go compiles ahead of time to a native binary, checks types at compile time, and reclaims memory automatically with a garbage collector."
+    },
+    {
+      "id": "q2",
+      "type": "multiple-choice",
+      "prompt": "Which of these did Go's designers deliberately leave out? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Exceptions (try/catch)" },
+        { "id": "b", "text": "Class inheritance" },
+        { "id": "c", "text": "Functions" },
+        { "id": "d", "text": "Manual memory management (free)" }
+      ],
+      "answer": ["a", "b", "d"],
+      "explanation": "Go has no exceptions (errors are return values), no class inheritance (it uses composition), and no manual free (it is garbage collected). Functions, of course, exist."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "The standard tool that formats all Go source into one canonical style is called ____.",
+      "answer": ["gofmt", "go fmt"],
+      "explanation": "gofmt (invoked as `go fmt`) formats Go code the same way for everyone, ending debates about layout."
+    },
+    {
+      "id": "q4",
+      "type": "match-pair",
+      "prompt": "Match each Go concept to its description.",
+      "pairs": [
+        { "left": "Goroutine", "right": "A lightweight thread managed by the runtime" },
+        { "left": "Channel", "right": "A typed conduit for passing values between goroutines" },
+        { "left": "Package", "right": "A directory of Go files compiled together" },
+        { "left": "gofmt", "right": "The canonical code formatter" }
+      ],
+      "explanation": "Goroutines and channels are the built-in concurrency primitives; a package groups files; gofmt enforces one style."
+    },
+    {
+      "id": "q5",
+      "type": "single-choice",
+      "prompt": "What marks a Go program as an executable you can run?",
+      "options": [
+        { "id": "a", "text": "The `main` package containing a `func main()`" },
+        { "id": "b", "text": "A file named run.go" },
+        { "id": "c", "text": "A `public class Main`" },
+        { "id": "d", "text": "An `@entrypoint` annotation" }
+      ],
+      "answer": "a",
+      "explanation": "An executable is the special `main` package with a `func main()` entry point; Go has no classes or annotations for this."
+    },
+    {
+      "id": "q6",
+      "type": "ordering",
+      "prompt": "Put the steps of running a program with `go run hello.go` in order.",
+      "items": [
+        { "id": "write", "text": "Write the Go source file" },
+        { "id": "compile", "text": "Go compiles it to a native binary" },
+        { "id": "exec", "text": "The binary executes" },
+        { "id": "print", "text": "Output is printed" }
+      ],
+      "answer": ["write", "compile", "exec", "print"],
+      "explanation": "`go run` compiles the source to a temporary native binary and then executes it in one step — there is no separate interpret stage at runtime."
+    }
+  ]
+}

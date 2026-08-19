@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-07",
+  "lessonId": "lesson-07",
+  "title": "Structs and Methods",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "If a method needs to modify its receiver, which receiver type must it use?",
+      "options": [
+        { "id": "a", "text": "A pointer receiver, e.g. `func (t *T) ...`" },
+        { "id": "b", "text": "A value receiver, e.g. `func (t T) ...`" },
+        { "id": "c", "text": "Either works identically" },
+        { "id": "d", "text": "Neither — use a global variable" }
+      ],
+      "answer": "a",
+      "explanation": "A value receiver operates on a copy, so changes are lost; a pointer receiver operates on the original and can mutate it."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "How does Go reuse behavior across types without inheritance?",
+      "options": [
+        { "id": "a", "text": "By embedding one type in another, promoting its fields and methods" },
+        { "id": "b", "text": "With an `extends` keyword" },
+        { "id": "c", "text": "With abstract base classes" },
+        { "id": "d", "text": "It cannot reuse behavior" }
+      ],
+      "answer": "a",
+      "explanation": "Go composes types by embedding; the embedded type's exported fields and methods are promoted to the outer type."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "By convention, a constructor function is named ____ (using the type name Foo).",
+      "answer": ["NewFoo", "New"],
+      "explanation": "Go has no special constructor syntax; the convention is a function named `NewFoo` (or `New` when the package is named after the type) that returns a ready value."
+    },
+    {
+      "id": "q4",
+      "type": "multiple-choice",
+      "prompt": "Which statements about structs and methods are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "A struct's zero value has every field at its own zero value" },
+        { "id": "b", "text": "You can attach methods to any named type, not only structs" },
+        { "id": "c", "text": "Keyed struct literals are order-independent" },
+        { "id": "d", "text": "Go has classes and inheritance" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Zero-valued structs are often usable, methods work on any named type, and keyed literals resist field reordering. Go has neither classes nor inheritance."
+    },
+    {
+      "id": "q5",
+      "type": "match-pair",
+      "prompt": "Match each choice to when you'd make it.",
+      "pairs": [
+        { "left": "Pointer receiver", "right": "Method mutates the receiver or the struct is large" },
+        { "left": "Value receiver", "right": "Small, read-only method on a small type" },
+        { "left": "Embedding", "right": "Reuse another type's fields and methods" },
+        { "left": "Keyed literal", "right": "Create a struct clearly and safely" }
+      ],
+      "explanation": "Receiver choice hinges on mutation and size; embedding provides composition; keyed literals are the safe way to construct."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "What is the recommended consistency rule for a type's receivers?",
+      "options": [
+        { "id": "a", "text": "If any method needs a pointer receiver, give all methods pointer receivers" },
+        { "id": "b", "text": "Always mix value and pointer receivers evenly" },
+        { "id": "c", "text": "Only the constructor may use a pointer" },
+        { "id": "d", "text": "Receivers must all be value receivers" }
+      ],
+      "answer": "a",
+      "explanation": "Keeping a type's method set uniform (all pointer or all value) avoids subtle method-set and interface-satisfaction surprises."
+    }
+  ]
+}

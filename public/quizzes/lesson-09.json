@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-09",
+  "lessonId": "lesson-09",
+  "title": "Interfaces and Composition",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "How does a type declare that it satisfies an interface in Go?",
+      "options": [
+        { "id": "a", "text": "It doesn't — satisfaction is implicit if it has the methods" },
+        { "id": "b", "text": "With an `implements` keyword" },
+        { "id": "c", "text": "By registering with the interface at startup" },
+        { "id": "d", "text": "By inheriting from the interface" }
+      ],
+      "answer": "a",
+      "explanation": "Go uses structural typing: any type with all of an interface's methods satisfies it, with no declaration."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "When is an interface value equal to nil?",
+      "options": [
+        { "id": "a", "text": "Only when both its type and its value are nil" },
+        { "id": "b", "text": "Whenever the value inside is nil" },
+        { "id": "c", "text": "Never" },
+        { "id": "d", "text": "Whenever the type is a pointer" }
+      ],
+      "answer": "a",
+      "explanation": "An interface holds a (type, value) pair and is nil only if both are nil; a nil concrete pointer stored in it gives it a type, so it is non-nil — the typed-nil gotcha."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "The empty interface, spelled ____ since Go 1.18, is satisfied by every type.",
+      "answer": ["any", "interface{}"],
+      "explanation": "`any` is an alias for `interface{}`; because it requires no methods, every type satisfies it."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "Why should you use `v, ok := x.(T)` instead of `v := x.(T)`?",
+      "options": [
+        { "id": "a", "text": "The comma-ok form returns ok=false on mismatch instead of panicking" },
+        { "id": "b", "text": "The single-value form is faster and safer" },
+        { "id": "c", "text": "They behave identically" },
+        { "id": "d", "text": "The comma-ok form is required by the compiler" }
+      ],
+      "answer": "a",
+      "explanation": "A single-value type assertion panics if the type doesn't match; the comma-ok form reports failure via the boolean instead."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which are good interface practices in Go? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Keep interfaces small (often one or two methods)" },
+        { "id": "b", "text": "Accept interfaces and return concrete types" },
+        { "id": "c", "text": "Define interfaces where they are used" },
+        { "id": "d", "text": "Return a nil typed pointer as an error for success" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Small, use-site interfaces and accept-interfaces/return-structs are idiomatic. Returning a typed nil pointer as an error is the classic bug — return literal nil instead."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each tool to what it does with an interface value.",
+      "pairs": [
+        { "left": "Type assertion x.(T)", "right": "Extract a specific concrete type" },
+        { "left": "Type switch", "right": "Branch on the dynamic type" },
+        { "left": "any", "right": "Hold a value of any type" },
+        { "left": "fmt.Stringer", "right": "Let a type control how it prints" }
+      ],
+      "explanation": "Assertions and type switches inspect the concrete type; `any` holds anything; implementing Stringer customizes printing."
+    }
+  ]
+}

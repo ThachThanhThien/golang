@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-04",
+  "lessonId": "lesson-04",
+  "title": "Functions and Multiple Returns",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What is the idiomatic multiple-return signature for a function that can fail?",
+      "options": [
+        { "id": "a", "text": "(result, error)" },
+        { "id": "b", "text": "(error, result)" },
+        { "id": "c", "text": "(result, bool, string)" },
+        { "id": "d", "text": "It throws an exception instead" }
+      ],
+      "answer": "a",
+      "explanation": "Go functions return the useful value plus an `error` last; the caller checks `if err != nil`. Go has no exceptions."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "When are the arguments to a deferred call evaluated?",
+      "options": [
+        { "id": "a", "text": "Immediately, when the `defer` statement runs" },
+        { "id": "b", "text": "When the deferred call actually executes at return" },
+        { "id": "c", "text": "Never — deferred calls take no arguments" },
+        { "id": "d", "text": "Randomly" }
+      ],
+      "answer": "a",
+      "explanation": "Deferred arguments are captured when `defer` executes, even though the call itself runs when the surrounding function returns."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "Multiple `defer` statements run in ____ order (three-letter abbreviation) when the function returns.",
+      "answer": ["LIFO", "last-in first-out", "last in first out"],
+      "explanation": "Deferred calls run last-in, first-out: the most recently deferred call runs first."
+    },
+    {
+      "id": "q4",
+      "type": "multiple-choice",
+      "prompt": "Which statements about functions in Go are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Functions are first-class values (can be stored and passed)" },
+        { "id": "b", "text": "A closure captures variables from its surrounding scope" },
+        { "id": "c", "text": "A trailing `...T` parameter accepts any number of arguments" },
+        { "id": "d", "text": "`defer` runs at the end of each loop iteration" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Functions are first-class, closures capture scope, and variadic `...T` collects arguments into a slice. `defer` runs at function return, not per loop iteration."
+    },
+    {
+      "id": "q5",
+      "type": "single-choice",
+      "prompt": "In `_, err := f()`, what does the blank identifier `_` do?",
+      "options": [
+        { "id": "a", "text": "Discards the first returned value, keeping only err" },
+        { "id": "b", "text": "Names a variable called underscore" },
+        { "id": "c", "text": "Causes a compile error" },
+        { "id": "d", "text": "Swaps the two return values" }
+      ],
+      "answer": "a",
+      "explanation": "The blank identifier discards the value in that position, so you keep only the ones you care about."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each function feature to its purpose.",
+      "pairs": [
+        { "left": "Variadic parameter", "right": "Accept any number of arguments" },
+        { "left": "defer", "right": "Guarantee cleanup on every exit path" },
+        { "left": "Named returns", "right": "Return values that a bare return sends back" },
+        { "left": "Closure", "right": "Bundle behavior with private captured state" }
+      ],
+      "explanation": "Each feature serves a distinct role; defer is especially valuable because it runs even when the function panics."
+    }
+  ]
+}

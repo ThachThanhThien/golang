@@ -1,0 +1,80 @@
+{
+  "id": "quiz-lesson-14",
+  "lessonId": "lesson-14",
+  "title": "Testing, Benchmarks, and Coverage",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What must a Go test file be named, and what is a test function's signature?",
+      "options": [
+        { "id": "a", "text": "A file ending in `_test.go`, with `func TestXxx(t *testing.T)`" },
+        { "id": "b", "text": "Any file, with `func test_xxx()`" },
+        { "id": "c", "text": "A file named tests.go, with `@Test` annotations" },
+        { "id": "d", "text": "spec.go, with `describe()` blocks" }
+      ],
+      "answer": "a",
+      "explanation": "Tests live in `_test.go` files as `func TestXxx(t *testing.T)` and run with `go test`."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What is the difference between `t.Error` and `t.Fatal`?",
+      "options": [
+        { "id": "a", "text": "`Error` records a failure but continues; `Fatal` stops the current test" },
+        { "id": "b", "text": "They are identical" },
+        { "id": "c", "text": "`Fatal` continues; `Error` stops the test" },
+        { "id": "d", "text": "`Error` is only for benchmarks" }
+      ],
+      "answer": "a",
+      "explanation": "`t.Error`/`Errorf` mark a failure and keep going; `t.Fatal`/`Fatalf` mark it and stop the current test immediately."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "A benchmark function is `func BenchmarkXxx(b *testing.B)` and loops `for i := 0; i < b.____; i++`.",
+      "answer": ["N", "b.N"],
+      "explanation": "The framework adjusts `b.N` until timing is stable; you loop that many times, run with `go test -bench`."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "What makes an `ExampleXxx` function special?",
+      "options": [
+        { "id": "a", "text": "With an `// Output:` comment it is run and its output is verified, and it appears in docs" },
+        { "id": "b", "text": "It is ignored by the test runner" },
+        { "id": "c", "text": "It only compiles but never runs" },
+        { "id": "d", "text": "It replaces the need for TestXxx" }
+      ],
+      "answer": "a",
+      "explanation": "Example functions with an `// Output:` comment are compiled, executed, checked against the comment, and shown in the package documentation."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which are idiomatic Go testing practices? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Table-driven tests looped with t.Run subtests" },
+        { "id": "b", "text": "Running concurrent code tests with -race" },
+        { "id": "c", "text": "Using t.Helper() in assertion helpers" },
+        { "id": "d", "text": "Relying on a built-in assert() function" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Table-driven tests, -race for concurrency, and t.Helper for helpers are idiomatic. Go has no built-in assert; you compare and call t.Error/t.Fatal."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "Why might a benchmark report an unrealistically fast time?",
+      "options": [
+        { "id": "a", "text": "If the result is never used, the compiler can optimize the work away" },
+        { "id": "b", "text": "Because b.N is always 1" },
+        { "id": "c", "text": "Because benchmarks skip the function body" },
+        { "id": "d", "text": "Because -bench disables timing" }
+      ],
+      "answer": "a",
+      "explanation": "Dead-code elimination can remove work whose result is unused; consume the result (e.g. assign to a package-level sink) to prevent that."
+    }
+  ]
+}

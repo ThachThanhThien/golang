@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-17",
+  "lessonId": "lesson-17",
+  "title": "Context, Cancellation, and Timeouts",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Why must you always call the `cancel` function returned by WithCancel/WithTimeout?",
+      "options": [
+        { "id": "a", "text": "To release the resources (timers, goroutines) the context set up" },
+        { "id": "b", "text": "To restart the context" },
+        { "id": "c", "text": "It is optional and has no effect" },
+        { "id": "d", "text": "To send the result to the caller" }
+      ],
+      "answer": "a",
+      "explanation": "Not calling cancel leaks the context's resources until the deadline; `defer cancel()` is the idiom, and go vet warns when you forget."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "How does a function learn that a context has been cancelled or timed out?",
+      "options": [
+        { "id": "a", "text": "The channel from ctx.Done() is closed; ctx.Err() says why" },
+        { "id": "b", "text": "The context throws an exception" },
+        { "id": "c", "text": "A global flag is set" },
+        { "id": "d", "text": "The function is force-killed" }
+      ],
+      "answer": "a",
+      "explanation": "ctx.Done() returns a channel that closes on cancellation/timeout; ctx.Err() then returns context.Canceled or context.DeadlineExceeded."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "By convention, a Context is passed as the ____ parameter of a function, named ctx.",
+      "answer": ["first", "1st"],
+      "explanation": "Pass ctx as the first argument named ctx; don't store it in a struct."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "What is `context.WithValue` intended for?",
+      "options": [
+        { "id": "a", "text": "Request-scoped data crossing API boundaries, with an unexported key type" },
+        { "id": "b", "text": "Passing ordinary function parameters" },
+        { "id": "c", "text": "Storing global configuration" },
+        { "id": "d", "text": "Returning results from a goroutine" }
+      ],
+      "answer": "a",
+      "explanation": "WithValue is for request-scoped data (like a request ID) across boundaries, using an unexported key type to avoid collisions — not for normal parameters."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which are correct context practices? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Derive a timeout at a boundary and defer cancel() immediately" },
+        { "id": "b", "text": "Select on ctx.Done() in long loops so work can be cancelled" },
+        { "id": "c", "text": "Propagate the same context down the call chain" },
+        { "id": "d", "text": "Store the Context in a struct field for later use" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Derive-and-defer-cancel, watch ctx.Done(), and propagate the context are all correct. Storing a context in a struct is discouraged."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each context constructor to its role.",
+      "pairs": [
+        { "left": "context.Background()", "right": "The empty root context" },
+        { "left": "context.TODO()", "right": "A placeholder when none is wired yet" },
+        { "left": "WithTimeout", "right": "Auto-cancel after a duration" },
+        { "left": "WithCancel", "right": "Manual cancellation via a cancel func" }
+      ],
+      "explanation": "Background is the root, TODO is a placeholder, WithTimeout bounds time, and WithCancel gives manual cancellation."
+    }
+  ]
+}

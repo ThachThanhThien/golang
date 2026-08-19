@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-22",
+  "lessonId": "lesson-22",
+  "title": "Modules, Versioning, and Distributing Programs",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "How do you publish a new version of a Go module?",
+      "options": [
+        { "id": "a", "text": "Tag the commit with a semantic version and push it (e.g. git tag v1.2.0)" },
+        { "id": "b", "text": "Upload a tarball to a central registry" },
+        { "id": "c", "text": "Run go publish" },
+        { "id": "d", "text": "Email the maintainers" }
+      ],
+      "answer": "a",
+      "explanation": "There's no separate registry: tagging a semantic version in version control and pushing it is the publish step; consumers `go get module@vX.Y.Z`."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What must change when you release v2.0.0 of a module?",
+      "options": [
+        { "id": "a", "text": "The module path and imports must include the major version (/v2)" },
+        { "id": "b", "text": "Nothing — versions are handled automatically" },
+        { "id": "c", "text": "You must rename every function" },
+        { "id": "d", "text": "You must switch to GOPATH mode" }
+      ],
+      "answer": "a",
+      "explanation": "For v2+, the major version is part of the module path and import path, letting incompatible major versions coexist."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "How do you cross-compile a Go program for another OS and CPU?",
+      "options": [
+        { "id": "a", "text": "Set the GOOS and GOARCH environment variables and run go build" },
+        { "id": "b", "text": "Install a separate compiler per platform" },
+        { "id": "c", "text": "Use a cloud build only" },
+        { "id": "d", "text": "It is not possible" }
+      ],
+      "answer": "a",
+      "explanation": "Pure-Go programs cross-compile by setting GOOS (target OS) and GOARCH (target CPU) — no cross-toolchain needed."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "Building with CGO_ENABLED=____ produces a fully static, pure-Go binary with no libc dependency.",
+      "answer": ["0", "zero"],
+      "explanation": "CGO_ENABLED=0 disables cgo, yielding a static binary that can run on a minimal base image like scratch."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which statements about distribution are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "go install pkg@version builds and installs a command onto your PATH" },
+        { "id": "b", "text": "The module proxy and checksum DB make builds reproducible and verified" },
+        { "id": "c", "text": "-ldflags -X can inject a version string at build time" },
+        { "id": "d", "text": "You must commit compiled binaries per platform to the repo" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "go install distributes tools, the proxy/checksum DB verify dependencies, and -ldflags -X stamps metadata. You cross-compile artifacts rather than commit them."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each semantic version change to what it signals.",
+      "pairs": [
+        { "left": "PATCH (v1.0.1)", "right": "Backward-compatible bug fix" },
+        { "left": "MINOR (v1.1.0)", "right": "Backward-compatible new feature" },
+        { "left": "MAJOR (v2.0.0)", "right": "Breaking change (new import path)" },
+        { "left": "go mod vendor", "right": "Copy dependencies into vendor/ for offline builds" }
+      ],
+      "explanation": "PATCH fixes, MINOR adds features, MAJOR breaks (and needs /vN), and vendoring bundles dependencies locally."
+    }
+  ]
+}

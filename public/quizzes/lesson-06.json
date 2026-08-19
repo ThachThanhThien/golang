@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-06",
+  "lessonId": "lesson-06",
+  "title": "Arrays, Slices, and Maps",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What three fields make up a slice header?",
+      "options": [
+        { "id": "a", "text": "A pointer to the backing array, a length, and a capacity" },
+        { "id": "b", "text": "A start index, an end index, and a name" },
+        { "id": "c", "text": "Only a pointer and a length" },
+        { "id": "d", "text": "A hash, a size, and a type" }
+      ],
+      "answer": "a",
+      "explanation": "A slice is a small header of {pointer, len, cap} over a backing array; copying the header shares that array."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "Why must you write `s = append(s, x)` rather than just `append(s, x)`?",
+      "options": [
+        { "id": "a", "text": "Because append may reallocate and return a different slice" },
+        { "id": "b", "text": "Because append modifies the array in place always" },
+        { "id": "c", "text": "Because append returns an error" },
+        { "id": "d", "text": "It is only a style preference" }
+      ],
+      "answer": "a",
+      "explanation": "When capacity is exceeded, append allocates a new backing array and returns a new slice; you must keep the returned value."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "What happens when you write to a nil map?",
+      "options": [
+        { "id": "a", "text": "It panics" },
+        { "id": "b", "text": "It silently creates the map" },
+        { "id": "c", "text": "It returns an error" },
+        { "id": "d", "text": "Nothing happens" }
+      ],
+      "answer": "a",
+      "explanation": "Reading a nil map is safe (you get zero values), but writing to one panics — initialize it with `make` or a literal first."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "To tell a missing key from a zero value, use the ____ idiom: `v, ok := m[k]`.",
+      "answer": ["comma-ok", "comma ok", "comma, ok"],
+      "explanation": "The comma-ok idiom returns the value and a boolean that is false when the key is absent."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which statements about Go collections are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Arrays are value types and are copied on assignment" },
+        { "id": "b", "text": "Slicing shares the same backing array (aliasing)" },
+        { "id": "c", "text": "Maps are not safe for concurrent use without a lock" },
+        { "id": "d", "text": "Reading a missing map key panics" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Arrays copy by value, slices alias shared memory, and maps need a mutex for concurrent writes. Reading a missing key returns the zero value, it doesn't panic."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each tool to what it does.",
+      "pairs": [
+        { "left": "copy(dst, src)", "right": "Make an independent copy of a slice" },
+        { "left": "make([]T, 0, n)", "right": "Preallocate capacity to avoid regrowth" },
+        { "left": "delete(m, k)", "right": "Remove a key from a map" },
+        { "left": "s[i:j:k]", "right": "Bound a slice's capacity to k-i" }
+      ],
+      "explanation": "`copy` breaks aliasing, capacity presizing avoids reallocations, `delete` removes map keys, and the three-index slice caps capacity."
+    }
+  ]
+}

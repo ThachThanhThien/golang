@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-10",
+  "lessonId": "lesson-10",
+  "title": "Errors and Error Handling",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "How does idiomatic Go report an expected failure like a missing file?",
+      "options": [
+        { "id": "a", "text": "By returning an `error` value that the caller checks" },
+        { "id": "b", "text": "By throwing an exception" },
+        { "id": "c", "text": "By calling panic" },
+        { "id": "d", "text": "By returning -1" }
+      ],
+      "answer": "a",
+      "explanation": "Errors are ordinary values returned (usually last) and checked with `if err != nil`; Go has no exceptions, and panic is reserved for the unrecoverable."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What does wrapping an error with `%w` in `fmt.Errorf` accomplish?",
+      "options": [
+        { "id": "a", "text": "It adds context while preserving the original error in a chain" },
+        { "id": "b", "text": "It converts the error to a string and discards the cause" },
+        { "id": "c", "text": "It silently ignores the error" },
+        { "id": "d", "text": "It panics" }
+      ],
+      "answer": "a",
+      "explanation": "`%w` embeds the cause so the outer error carries context and the original is still findable with errors.Is/As. `%v` would only format a message."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "Where must `recover` be called to stop a panic?",
+      "options": [
+        { "id": "a", "text": "Inside a deferred function" },
+        { "id": "b", "text": "Anywhere in the function body" },
+        { "id": "c", "text": "In the caller of the panicking function" },
+        { "id": "d", "text": "In an init function" }
+      ],
+      "answer": "a",
+      "explanation": "`recover` only has an effect when called directly from a deferred function during stack unwinding."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "To check whether a specific sentinel error is anywhere in a wrapped chain, use errors.____.",
+      "answer": ["Is", "is"],
+      "explanation": "`errors.Is(err, target)` reports whether the target sentinel appears in the chain; `errors.As` finds an error of a given type."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which are correct uses of error handling in Go? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Return errors and check them immediately" },
+        { "id": "b", "text": "Use `errors.As` to extract a typed error's fields" },
+        { "id": "c", "text": "Reserve panic for unrecoverable bugs" },
+        { "id": "d", "text": "Panic on any invalid user input" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Returning and checking errors, using errors.As for typed errors, and reserving panic for the unrecoverable are all idiomatic. Panicking on ordinary bad input is an anti-pattern."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each error tool to its purpose.",
+      "pairs": [
+        { "left": "errors.New", "right": "Create an error with a fixed message" },
+        { "left": "fmt.Errorf(\"...: %w\", err)", "right": "Wrap an error with added context" },
+        { "left": "errors.Is", "right": "Match a sentinel through the chain" },
+        { "left": "errors.As", "right": "Find and extract a typed error" }
+      ],
+      "explanation": "New makes errors, %w wraps them, Is matches sentinels, and As extracts typed errors from the chain."
+    }
+  ]
+}

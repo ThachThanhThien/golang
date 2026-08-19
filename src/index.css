@@ -1,0 +1,473 @@
+@import 'tailwindcss';
+
+/* Class-based dark mode toggled by the theme context (adds .dark on <html>) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens
+
+   Colour is anchored on Go's official "Gopher Blue" (#00ADD8) resolving into a
+   lighter "Light Blue" (#5DC9E2) — the two-tone cyan of the Go brand.
+   `brand-*` is the Gopher-blue end (primary actions, links); `cyan-*` is
+   repurposed as the light-blue accent end (hover highlights, gradient tail).
+   The token names `brand`/`cyan` are kept from the shared portal shell; only
+   the values change, so every existing utility keeps resolving.
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Go "Gopher Blue" (primary end) — anchored on #00ADD8 at 500; 600+ deepened
+     toward go.dev's darker brand blue so white text clears contrast on filled
+     buttons. */
+  --color-brand-50: #ecfeff;
+  --color-brand-100: #cff9fe;
+  --color-brand-200: #a3f0fb;
+  --color-brand-300: #66e1f6;
+  --color-brand-400: #1fc9ec;
+  --color-brand-500: #00add8;
+  --color-brand-600: #007d9c;
+  --color-brand-700: #0b657f;
+  --color-brand-800: #115365;
+  --color-brand-900: #144655;
+  --color-brand-950: #082e3a;
+
+  /* Go "Light Blue" (accent end) — #5DC9E2, the bright tail that pairs with the
+     Gopher blue for a two-tone gradient. Mid/high stops are darkened enough to
+     stay legible as text on white. */
+  --color-cyan-50: #edfcff;
+  --color-cyan-100: #d3f5fd;
+  --color-cyan-200: #ade9fb;
+  --color-cyan-300: #5dc9e2;
+  --color-cyan-400: #33bce0;
+  --color-cyan-500: #12a1c9;
+  --color-cyan-600: #0b83a6;
+  --color-cyan-700: #106a86;
+  --color-cyan-800: #14566d;
+  --color-cyan-900: #15475a;
+  --color-cyan-950: #082e3c;
+
+  /* Calm, faintly cool neutrals for text and surfaces */
+  --color-ink-50: #f6f7f9;
+  --color-ink-100: #eceef1;
+  --color-ink-200: #dcdfe5;
+  --color-ink-300: #c1c7d0;
+  --color-ink-400: #99a1af;
+  --color-ink-500: #6d7580;
+  --color-ink-600: #4d545e;
+  --color-ink-700: #383d45;
+  --color-ink-800: #23272f;
+  --color-ink-900: #16181d;
+  --color-ink-950: #0d0f13;
+
+  /* Soft, blue-tinted shadows — black shadows read harsh at this radius */
+  --shadow-soft: 0 1px 2px rgb(15 36 59 / 0.04), 0 4px 16px rgb(15 36 59 / 0.06);
+  --shadow-lift: 0 2px 6px rgb(15 36 59 / 0.05), 0 14px 32px rgb(15 36 59 / 0.13);
+  --shadow-glow: 0 6px 20px rgb(0 173 216 / 0.35);
+
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 0.35s ease-out both;
+  --animate-pop: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+:root {
+  /* The Gopher-blue gradient used across marks, buttons, and rules:
+     deep blue → gopher blue → light blue. */
+  --gradient-brand: linear-gradient(135deg, #007d9c 0%, #00add8 45%, #5dc9e2 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Match native controls (scrollbars, form widgets, autofill) to the active
+     theme, and opt out of the browser's automatic dark-mode remapping — this
+     app themes itself via the `.dark` class. */
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-ink-50 text-ink-700 antialiased;
+}
+
+.dark body {
+  @apply bg-ink-950 text-ink-300;
+}
+
+/* Global keyboard focus ring — deliberately UNLAYERED. Unlayered declarations
+   outrank every `@layer` (including Tailwind's `utilities`), so this wins even
+   over a utility like `outline-none` on the same element. That guarantees every
+   interactive element shows a visible, on-brand focus outline in both themes,
+   regardless of the utility classes it carries. */
+:where(a, button, select, summary, [tabindex]:not([tabindex='-1'])):focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+/* Motion is decoration here; never let it fight the user's OS preference. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Component classes
+
+   Templates were repeating ~8 utility classes per surface, which made the
+   markup hard to scan and let styles drift apart. These names are the
+   vocabulary the components use instead.
+--------------------------------------------------------------------------- */
+/* Outline (not a ring) so it survives being pulled into other utilities via
+   `@apply`, which drops nested variants in Tailwind v4. outline-offset shows the
+   element's own background as the gap, so one rule works in light and dark. */
+@utility focusable {
+  &:focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+  }
+}
+
+@utility card {
+  @apply rounded-2xl border border-ink-200 bg-white shadow-soft dark:border-ink-800 dark:bg-ink-900;
+}
+
+/* Hover lift uses transform only — animating box positions would reflow.
+   The card styles are spelled out in full rather than `@apply card`: composing a
+   custom utility that carries `dark:` variants drops those variants in Tailwind
+   v4, which left these surfaces white in dark mode. Focus is handled by the
+   global :focus-visible outline below, so no ring utilities are needed here. */
+@utility card-interactive {
+  @apply rounded-2xl border border-ink-200 bg-white shadow-soft transition duration-200 hover:-translate-y-1 hover:border-brand-300 hover:shadow-lift dark:border-ink-800 dark:bg-ink-900 dark:hover:border-brand-700;
+}
+
+@utility btn {
+  @apply focusable inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 disabled:pointer-events-none disabled:opacity-50;
+}
+
+@utility btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700 hover:shadow-glow active:scale-[0.97];
+}
+
+@utility btn-gradient {
+  @apply btn text-white active:scale-[0.97];
+  background-image: var(--gradient-brand);
+  background-size: 160% 160%;
+  background-position: 0% 50%;
+
+  &:hover {
+    background-position: 100% 50%;
+    box-shadow: var(--shadow-glow);
+  }
+}
+
+@utility btn-secondary {
+  @apply btn border border-ink-200 bg-white text-ink-700 hover:border-brand-300 hover:bg-brand-50 hover:text-brand-700 active:scale-[0.97] dark:border-ink-700 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-brand-700 dark:hover:bg-ink-800 dark:hover:text-brand-300;
+}
+
+@utility btn-ghost {
+  @apply btn text-ink-500 hover:bg-ink-100 hover:text-ink-800 dark:text-ink-400 dark:hover:bg-ink-800 dark:hover:text-ink-100;
+}
+
+@utility btn-danger {
+  @apply btn border border-rose-300 text-rose-600 hover:bg-rose-50 active:scale-[0.97] dark:border-rose-900 dark:text-rose-400 dark:hover:bg-rose-950/40;
+}
+
+/* Icon-only controls still need a 44px hit area even though the glyph is 20px. */
+@utility btn-icon {
+  @apply focusable grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full text-ink-500 transition duration-200 hover:bg-ink-100 hover:text-brand-600 active:scale-95 dark:text-ink-400 dark:hover:bg-ink-800 dark:hover:text-brand-300;
+}
+
+@utility badge {
+  @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-bold;
+}
+
+@utility badge-beginner {
+  @apply badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300;
+}
+
+@utility badge-intermediate {
+  @apply badge bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300;
+}
+
+@utility badge-advanced {
+  @apply badge bg-violet-100 text-violet-800 dark:bg-violet-950 dark:text-violet-300;
+}
+
+@utility input-field {
+  @apply w-full rounded-2xl border border-ink-200 bg-white px-4 py-3 text-base text-ink-800 outline-none transition placeholder:text-ink-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/15 dark:border-ink-700 dark:bg-ink-900 dark:text-ink-100;
+}
+
+@utility chip {
+  @apply focusable inline-flex items-center gap-1.5 rounded-full border border-ink-200 bg-white px-3 py-1.5 text-sm text-ink-700 transition hover:border-brand-300 hover:text-brand-700 dark:border-ink-800 dark:bg-ink-900 dark:text-ink-200 dark:hover:border-brand-700 dark:hover:text-brand-300;
+}
+
+@utility heading {
+  @apply font-extrabold tracking-tight text-ink-900 dark:text-white;
+}
+
+@utility prose-muted {
+  @apply text-ink-500 dark:text-ink-400;
+}
+
+@utility gradient-text {
+  background-image: var(--gradient-brand);
+  @apply bg-clip-text text-transparent;
+}
+
+@utility gradient-rule {
+  background-image: var(--gradient-brand);
+  @apply h-1 w-full rounded-full;
+}
+
+/* The brand mark, filled with the brand gradient. */
+@utility brand-mark {
+  background-image: var(--gradient-brand);
+  @apply grid place-items-center rounded-xl text-white shadow-glow;
+}
+
+@utility surface-grid {
+  background-image:
+    linear-gradient(to right, rgb(0 173 216 / 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(0 173 216 / 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ---------------------------------------------------------------------------
+   Markdown / lesson content typography
+   Lesson markdown is rendered to HTML into .lesson-content; style the raw HTML.
+--------------------------------------------------------------------------- */
+.lesson-content {
+  @apply text-[1.0625rem] leading-relaxed text-ink-700 dark:text-ink-300;
+}
+.lesson-content h1 {
+  @apply mt-10 mb-4 scroll-mt-24 text-3xl font-extrabold tracking-tight text-ink-900 dark:text-white;
+}
+.lesson-content h2 {
+  @apply mt-10 mb-3 flex scroll-mt-24 items-center gap-3 text-2xl font-bold text-ink-900 dark:text-white;
+}
+/* Gradient tick instead of a full rule — lighter, and on-brand. */
+.lesson-content h2::before {
+  content: '';
+  background-image: var(--gradient-brand);
+  @apply h-6 w-1 shrink-0 rounded-full;
+}
+.lesson-content h3 {
+  @apply mt-8 mb-2 scroll-mt-24 text-xl font-bold text-ink-900 dark:text-white;
+}
+.lesson-content p {
+  @apply my-4;
+}
+.lesson-content ul {
+  @apply my-4 list-disc space-y-1.5 pl-6 marker:text-brand-400;
+}
+.lesson-content ol {
+  @apply my-4 list-decimal space-y-1.5 pl-6 marker:font-bold marker:text-brand-500;
+}
+.lesson-content a {
+  @apply font-medium text-brand-600 underline decoration-brand-300 underline-offset-2 transition hover:text-cyan-600 hover:decoration-cyan-400 dark:text-brand-300 dark:decoration-brand-700 dark:hover:text-cyan-400;
+}
+.lesson-content blockquote {
+  @apply my-5 rounded-r-xl border-l-4 border-brand-400 bg-brand-50 py-3 pr-4 pl-4 text-ink-600 italic dark:bg-brand-950/40 dark:text-ink-300;
+}
+.lesson-content table {
+  @apply my-5 w-full border-collapse overflow-hidden rounded-xl text-sm;
+}
+.lesson-content th,
+.lesson-content td {
+  @apply border border-ink-200 px-3 py-2 text-left dark:border-ink-800;
+}
+.lesson-content th {
+  @apply bg-ink-100 font-bold text-ink-800 dark:bg-ink-800 dark:text-ink-100;
+}
+/* inline code (not inside a highlighted code block) */
+.lesson-content :not(pre) > code {
+  @apply rounded-md bg-brand-50 px-1.5 py-0.5 font-mono text-[0.85em] font-medium text-brand-700 ring-1 ring-brand-100 ring-inset dark:bg-brand-950/60 dark:text-brand-300 dark:ring-brand-900;
+}
+.lesson-content pre {
+  @apply my-5 overflow-x-auto rounded-2xl text-sm shadow-soft;
+}
+.lesson-content img {
+  @apply my-5 max-w-full rounded-2xl;
+}
+.lesson-content hr {
+  @apply my-10 border-ink-200 dark:border-ink-800;
+}
+
+/* ---------------------------------------------------------------------------
+   Flash cards
+
+   LessonContent's post-render enhancement rewrites the "Flash Cards" markdown
+   list into this markup: a responsive grid of 3D flip cards. Question on the
+   front, gradient answer on the back. Spelled out in plain CSS (not @apply) so
+   the dark: variants survive Tailwind v4's utility composition.
+--------------------------------------------------------------------------- */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15.5rem, 1fr));
+  gap: 1rem;
+  margin: 1.75rem 0 2.25rem;
+}
+
+.flashcard {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  perspective: 1200px;
+  min-height: 11rem;
+}
+
+.flashcard-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  transform-style: preserve-3d;
+}
+
+.flashcard.is-flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1.15rem 1.25rem;
+  border-radius: 1rem;
+  overflow: auto;
+  border: 1px solid var(--color-ink-200);
+  box-shadow: var(--shadow-soft);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transition: box-shadow 0.2s ease;
+}
+
+.flashcard-front {
+  background: #fff;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+  border-color: transparent;
+  background-image: var(--gradient-brand);
+  color: #fff;
+}
+
+.dark .flashcard-face {
+  border-color: var(--color-ink-800);
+}
+.dark .flashcard-front {
+  background: var(--color-ink-900);
+}
+
+.flashcard:hover .flashcard-face {
+  box-shadow: var(--shadow-lift);
+}
+
+.flashcard-tag {
+  display: inline-grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: var(--color-brand-50);
+  color: var(--color-brand-700);
+}
+.dark .flashcard-front .flashcard-tag {
+  background: var(--color-brand-950);
+  color: var(--color-brand-300);
+}
+.flashcard-back .flashcard-tag {
+  background: rgb(255 255 255 / 0.22);
+  color: #fff;
+}
+
+.flashcard-body {
+  flex: 1 1 auto;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-ink-800);
+}
+.dark .flashcard-front .flashcard-body {
+  color: var(--color-ink-200);
+}
+.flashcard-back .flashcard-body {
+  color: #fff;
+}
+/* Keep inline code legible on the gradient back face. */
+.flashcard-back .flashcard-body :not(pre) > code {
+  background: rgb(255 255 255 / 0.18);
+  color: #fff;
+  --tw-ring-color: transparent;
+}
+
+.flashcard-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ink-400);
+}
+.flashcard-hint svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  transition: transform 0.4s ease;
+}
+.flashcard:hover .flashcard-hint svg {
+  transform: rotate(-90deg);
+}

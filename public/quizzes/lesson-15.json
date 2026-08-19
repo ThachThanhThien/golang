@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-15",
+  "lessonId": "lesson-15",
+  "title": "Generics and Type Parameters",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "In which Go version were generics (type parameters) added?",
+      "options": [
+        { "id": "a", "text": "Go 1.18" },
+        { "id": "b", "text": "Go 1.0" },
+        { "id": "c", "text": "Go 1.11" },
+        { "id": "d", "text": "Go 2.0" }
+      ],
+      "answer": "a",
+      "explanation": "Generics and the `any` alias for `interface{}` arrived in Go 1.18."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What does the `comparable` constraint permit that `any` does not?",
+      "options": [
+        { "id": "a", "text": "Use of the == and != operators" },
+        { "id": "b", "text": "Arithmetic with + and -" },
+        { "id": "c", "text": "Calling methods" },
+        { "id": "d", "text": "Nothing — they are equivalent" }
+      ],
+      "answer": "a",
+      "explanation": "`comparable` allows equality comparison (needed for map keys and `==` checks); `any` allows neither operators nor comparisons."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "Can a method declare its own type parameters?",
+      "options": [
+        { "id": "a", "text": "No — a method may only use the type parameters of its receiver type" },
+        { "id": "b", "text": "Yes — any method can add type parameters" },
+        { "id": "c", "text": "Only methods on pointers can" },
+        { "id": "d", "text": "Only exported methods can" }
+      ],
+      "answer": "a",
+      "explanation": "Methods cannot introduce new type parameters; they may only use the ones declared on the receiver type."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "In a constraint, `~float64` matches any type whose ____ type is float64.",
+      "answer": ["underlying"],
+      "explanation": "The ~ approximation matches any type whose underlying type is the given one, so `type Celsius float64` satisfies `~float64`."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "When are generics the right tool? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "One algorithm applied across many types with the same operations" },
+        { "id": "b", "text": "A type-safe container like a stack or set" },
+        { "id": "c", "text": "Removing real duplication across types" },
+        { "id": "d", "text": "Dispatching different behaviors dynamically" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Generics fit shared algorithms and type-safe containers to remove duplication; when types have different behaviors you want to dispatch on, use an interface instead."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each generics term to its meaning.",
+      "pairs": [
+        { "left": "Type parameter", "right": "A placeholder type in brackets like [T any]" },
+        { "left": "Constraint", "right": "An interface limiting which types are allowed" },
+        { "left": "any", "right": "Alias for interface{} — no restriction" },
+        { "left": "Type inference", "right": "The compiler deducing type arguments from the call" }
+      ],
+      "explanation": "Type parameters are constrained by interfaces; `any` is the unrestricted constraint; inference usually fills in the type arguments."
+    }
+  ]
+}

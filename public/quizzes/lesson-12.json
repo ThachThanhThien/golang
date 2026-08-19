@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-12",
+  "lessonId": "lesson-12",
+  "title": "Channels",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "On an unbuffered channel, what does a send do until a receiver is ready?",
+      "options": [
+        { "id": "a", "text": "It blocks — send and receive rendezvous together" },
+        { "id": "b", "text": "It returns immediately and drops the value" },
+        { "id": "c", "text": "It buffers the value indefinitely" },
+        { "id": "d", "text": "It panics" }
+      ],
+      "answer": "a",
+      "explanation": "An unbuffered send blocks until a receiver is ready; the two operations happen together, synchronizing the goroutines."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What do you get when you receive from a closed, drained channel?",
+      "options": [
+        { "id": "a", "text": "The zero value and a false ok flag (v, ok := <-ch)" },
+        { "id": "b", "text": "A panic" },
+        { "id": "c", "text": "The last value forever" },
+        { "id": "d", "text": "A blocking receive that never returns" }
+      ],
+      "answer": "a",
+      "explanation": "Receiving from a closed channel returns the zero value immediately with ok == false, and a `range` over it ends."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "What happens if you send on a closed channel?",
+      "options": [
+        { "id": "a", "text": "It panics" },
+        { "id": "b", "text": "It reopens the channel" },
+        { "id": "c", "text": "It silently succeeds" },
+        { "id": "d", "text": "It returns an error" }
+      ],
+      "answer": "a",
+      "explanation": "Sending on a closed channel panics — which is why only the sender should close, and only after its last send."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "A send or receive on a ____ channel blocks forever.",
+      "answer": ["nil", "a nil"],
+      "explanation": "A nil channel is never ready, so operations on it block forever; an accidental nil channel causes a hang."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which channel rules are correct? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Only the sender should close a channel" },
+        { "id": "b", "text": "Closing an already-closed channel panics" },
+        { "id": "c", "text": "A buffered send blocks only when the buffer is full" },
+        { "id": "d", "text": "Receivers should close the channel when done" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "The sender closes (once); double-close panics; buffered sends block only when full. Receivers never close."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each channel idiom to its use.",
+      "pairs": [
+        { "left": "range ch", "right": "Receive until the channel is closed" },
+        { "left": "close(ch)", "right": "Signal that no more values will be sent" },
+        { "left": "chan<- T", "right": "A send-only channel parameter" },
+        { "left": "<-chan T", "right": "A receive-only channel parameter" }
+      ],
+      "explanation": "range drains until close, close signals completion, and directional types document who sends and who receives."
+    }
+  ]
+}

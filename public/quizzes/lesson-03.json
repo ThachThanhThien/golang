@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-03",
+  "lessonId": "lesson-03",
+  "title": "Variables, Constants, and Basic Types",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What is the zero value of a `string` in Go?",
+      "options": [
+        { "id": "a", "text": "\"\" (the empty string)" },
+        { "id": "b", "text": "nil" },
+        { "id": "c", "text": "\"null\"" },
+        { "id": "d", "text": "undefined" }
+      ],
+      "answer": "a",
+      "explanation": "Every declared variable gets a defined zero value; for strings that is the empty string \"\", never nil or garbage."
+    },
+    {
+      "id": "q2",
+      "type": "multiple-choice",
+      "prompt": "Which statements about `:=` and `var` are correct? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "`:=` works only inside functions" },
+        { "id": "b", "text": "`var` can be used at package level" },
+        { "id": "c", "text": "`:=` infers the type from the value" },
+        { "id": "d", "text": "`var` cannot state an explicit type" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Short declaration (`:=`) is inference-based and function-local; `var` works anywhere and may state a type, a value, or both."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "The constant generator that produces 0, 1, 2, … within a const block is ____.",
+      "answer": ["iota"],
+      "explanation": "`iota` starts at 0 in each const block and increments by one per line — the idiomatic way to build enumerations."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "What does the expression `7 / 2` evaluate to in Go?",
+      "options": [
+        { "id": "a", "text": "3 (integer division truncates the fraction)" },
+        { "id": "b", "text": "3.5" },
+        { "id": "c", "text": "4 (rounds up)" },
+        { "id": "d", "text": "A compile error" }
+      ],
+      "answer": "a",
+      "explanation": "Both operands are ints, so this is integer division and the remainder is discarded, giving 3. To get 3.5 use floats, e.g. `7.0 / 2.0`."
+    },
+    {
+      "id": "q5",
+      "type": "match-pair",
+      "prompt": "Match each type or alias to what it represents.",
+      "pairs": [
+        { "left": "byte", "right": "Alias for uint8 (one 8-bit byte)" },
+        { "left": "rune", "right": "Alias for int32 (one Unicode code point)" },
+        { "left": "float64", "right": "The default floating-point type" },
+        { "left": "bool", "right": "true or false" }
+      ],
+      "explanation": "`byte` and `rune` are aliases for uint8 and int32; float64 is the go-to float, and bool holds true/false."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "What happens if you declare a local variable and never use it?",
+      "options": [
+        { "id": "a", "text": "The program fails to compile" },
+        { "id": "b", "text": "It compiles with a warning" },
+        { "id": "c", "text": "Nothing — Go ignores it" },
+        { "id": "d", "text": "It is silently removed at runtime" }
+      ],
+      "answer": "a",
+      "explanation": "Go treats an unused local variable (and an unused import) as a compile error, not a warning."
+    }
+  ]
+}

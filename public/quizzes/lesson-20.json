@@ -1,0 +1,80 @@
+{
+  "id": "quiz-lesson-20",
+  "lessonId": "lesson-20",
+  "title": "Profiling and Optimization with pprof",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What is the difference between a CPU profile and a heap profile?",
+      "options": [
+        { "id": "a", "text": "CPU shows where time is spent; heap shows what allocates memory" },
+        { "id": "b", "text": "They are the same" },
+        { "id": "c", "text": "CPU shows memory; heap shows time" },
+        { "id": "d", "text": "Only heap profiles exist in Go" }
+      ],
+      "answer": "a",
+      "explanation": "A CPU profile samples call stacks to show CPU time; a heap profile samples allocations to show memory usage."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "How do you collect CPU and memory profiles from a benchmark?",
+      "options": [
+        { "id": "a", "text": "go test -bench=. -cpuprofile=cpu.out -memprofile=mem.out" },
+        { "id": "b", "text": "go profile run" },
+        { "id": "c", "text": "go vet -profile" },
+        { "id": "d", "text": "go build -pprof" }
+      ],
+      "answer": "a",
+      "explanation": "Benchmarks emit profiles via -cpuprofile/-memprofile; analyze them with `go tool pprof`."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "In go tool pprof, the ____ command ranks the functions consuming the most CPU or memory.",
+      "answer": ["top"],
+      "explanation": "`top` (or top10) lists the costliest functions; `list Func` then shows per-line cost within a function."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "In pprof output, what does high 'cum' with low 'flat' mean for a function?",
+      "options": [
+        { "id": "a", "text": "The cost is in the functions it calls, not the function itself" },
+        { "id": "b", "text": "The hot code is right in that function" },
+        { "id": "c", "text": "The function is never called" },
+        { "id": "d", "text": "The profile is invalid" }
+      ],
+      "answer": "a",
+      "explanation": "Flat is time in the function itself; cum includes callees. High cum, low flat means the expense is down the call chain."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which are correct about profiling in Go? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "net/http/pprof exposes /debug/pprof/ endpoints on a server" },
+        { "id": "b", "text": "The execution tracer (go tool trace) shows scheduling and blocking" },
+        { "id": "c", "text": "You should keep pprof endpoints on a trusted internal address" },
+        { "id": "d", "text": "Profiling is unnecessary if you feel a function is slow" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "net/http/pprof exposes live profiles (kept internal), and the tracer answers scheduling/latency questions. Never optimize on a hunch — profile first."
+    },
+    {
+      "id": "q6",
+      "type": "ordering",
+      "prompt": "Order the steps of the optimization loop.",
+      "items": [
+        { "id": "measure", "text": "Measure a baseline with a benchmark" },
+        { "id": "profile", "text": "Profile to find the hotspot" },
+        { "id": "fix", "text": "Fix that one spot" },
+        { "id": "remeasure", "text": "Re-measure to confirm the improvement" }
+      ],
+      "answer": ["measure", "profile", "fix", "remeasure"],
+      "explanation": "Measure, profile, fix, then re-measure — and repeat only while the gains justify the added complexity."
+    }
+  ]
+}

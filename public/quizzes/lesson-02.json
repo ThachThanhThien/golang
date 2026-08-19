@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-02",
+  "lessonId": "lesson-02",
+  "title": "Installing Go and the Toolchain",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Which command turns a new directory into a Go module?",
+      "options": [
+        { "id": "a", "text": "go mod init <module-path>" },
+        { "id": "b", "text": "go new module" },
+        { "id": "c", "text": "npm init" },
+        { "id": "d", "text": "go build --module" }
+      ],
+      "answer": "a",
+      "explanation": "`go mod init <module-path>` creates the `go.mod` file that makes the directory a module, recording its path, Go version, and dependencies."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What is the difference between `go run` and `go build`?",
+      "options": [
+        { "id": "a", "text": "`go run` compiles and runs without keeping a binary; `go build` produces a reusable executable" },
+        { "id": "b", "text": "They are identical" },
+        { "id": "c", "text": "`go run` only checks types; `go build` runs the program" },
+        { "id": "d", "text": "`go build` is for tests only" }
+      ],
+      "answer": "a",
+      "explanation": "`go run` is for quick iteration (no binary left behind); `go build` compiles a binary you can ship or run again."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "The file that records verified cryptographic checksums of dependencies is ____.",
+      "answer": ["go.sum", "the go.sum file"],
+      "explanation": "`go.sum` records checksums so future downloads are verified to match what you originally built against; commit it alongside `go.mod`."
+    },
+    {
+      "id": "q4",
+      "type": "multiple-choice",
+      "prompt": "Which statements about the Go toolchain are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "`go vet` reports likely bugs the compiler still accepts" },
+        { "id": "b", "text": "`./...` means the current directory and all packages beneath it" },
+        { "id": "c", "text": "`go mod tidy` syncs go.mod with the code's imports" },
+        { "id": "d", "text": "You must install a separate formatter and test runner" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "vet finds suspicious constructs, `./...` targets the whole module, and `go mod tidy` reconciles dependencies. Formatting and testing are built into the one `go` command — no separate tools."
+    },
+    {
+      "id": "q5",
+      "type": "match-pair",
+      "prompt": "Match each go command to its job.",
+      "pairs": [
+        { "left": "go fmt", "right": "Format source into canonical style" },
+        { "left": "go test", "right": "Run tests" },
+        { "left": "go get", "right": "Add or upgrade a dependency" },
+        { "left": "go install", "right": "Build and install a command onto your PATH" }
+      ],
+      "explanation": "Each blade of the toolchain has a distinct job; `go get` manages dependencies while `go install` places runnable commands on your PATH."
+    },
+    {
+      "id": "q6",
+      "type": "single-choice",
+      "prompt": "What is `gopls`?",
+      "options": [
+        { "id": "a", "text": "The official Go language server that powers editor features" },
+        { "id": "b", "text": "A package manager" },
+        { "id": "c", "text": "A production web framework" },
+        { "id": "d", "text": "A replacement for the go command" }
+      ],
+      "answer": "a",
+      "explanation": "`gopls` gives editors autocompletion, go-to-definition, inline errors, and format-on-save."
+    }
+  ]
+}

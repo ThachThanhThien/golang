@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-24",
+  "lessonId": "lesson-24",
+  "title": "Capstone: A Concurrent URL Health Checker",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Why use a bounded worker pool instead of one goroutine per URL?",
+      "options": [
+        { "id": "a", "text": "To cap concurrency and resource use for large inputs" },
+        { "id": "b", "text": "Because goroutines can't run concurrently" },
+        { "id": "c", "text": "To make the program single-threaded" },
+        { "id": "d", "text": "It has no benefit" }
+      ],
+      "answer": "a",
+      "explanation": "With thousands of URLs, one goroutine each could exhaust memory or file descriptors; a fixed pool keeps resource use predictable."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "In the worker pool, who closes `jobs` and who closes `results`?",
+      "options": [
+        { "id": "a", "text": "The producer closes jobs; a goroutine closes results after wg.Wait()" },
+        { "id": "b", "text": "The workers close jobs; main closes results first" },
+        { "id": "c", "text": "Nobody needs to close them" },
+        { "id": "d", "text": "Both are closed by the receiver" }
+      ],
+      "answer": "a",
+      "explanation": "The producer closes jobs after sending all URLs; results is closed once wg.Wait() confirms all workers finished, so each range ends cleanly."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "Why does the program sort results before printing them?",
+      "options": [
+        { "id": "a", "text": "Because workers finish in nondeterministic order; sorting makes output stable and testable" },
+        { "id": "b", "text": "Because printing requires sorted data" },
+        { "id": "c", "text": "To make the program faster" },
+        { "id": "d", "text": "Sorting is not actually needed" }
+      ],
+      "answer": "a",
+      "explanation": "Concurrent completion order is nondeterministic; sorting by URL yields deterministic, testable output."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "The program calls os.____(1) when any check fails so scripts and CI can detect failure.",
+      "answer": ["Exit", "exit"],
+      "explanation": "A non-zero exit code (os.Exit(1)) lets automation branch on failure without parsing the text output."
+    },
+    {
+      "id": "q5",
+      "type": "single-choice",
+      "prompt": "How do you test HTTP client code without hitting the real network?",
+      "options": [
+        { "id": "a", "text": "Use net/http/httptest.NewServer and point the client at it" },
+        { "id": "b", "text": "Disable the network entirely" },
+        { "id": "c", "text": "Only test in production" },
+        { "id": "d", "text": "Hardcode expected responses in the client" }
+      ],
+      "answer": "a",
+      "explanation": "httptest.NewServer runs a local test server; srv.Client()/srv.URL let you exercise success, error-status, and failure paths reliably."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each earlier concept to how the capstone uses it.",
+      "pairs": [
+        { "left": "context.WithTimeout", "right": "Bound each request and allow cancellation" },
+        { "left": "Channels + WaitGroup", "right": "Distribute jobs and coordinate workers" },
+        { "left": "defer resp.Body.Close()", "right": "Release the response body/connection" },
+        { "left": "flag package", "right": "Configure workers and timeout from the CLI" }
+      ],
+      "explanation": "The capstone combines context timeouts, a channel/WaitGroup worker pool, disciplined body closing, and flag-based configuration."
+    }
+  ]
+}

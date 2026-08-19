@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-13",
+  "lessonId": "lesson-13",
+  "title": "Concurrency Patterns: select, sync, and Races",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "When several cases of a `select` are ready at once, what happens?",
+      "options": [
+        { "id": "a", "text": "It chooses one of the ready cases at random" },
+        { "id": "b", "text": "It always runs the first case listed" },
+        { "id": "c", "text": "It runs all of them" },
+        { "id": "d", "text": "It panics" }
+      ],
+      "answer": "a",
+      "explanation": "`select` picks one ready case at random, which helps prevent any single channel from starving the others."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "How do you make a `select` non-blocking?",
+      "options": [
+        { "id": "a", "text": "Add a `default` case" },
+        { "id": "b", "text": "Add a `break`" },
+        { "id": "c", "text": "Use an unbuffered channel" },
+        { "id": "d", "text": "It cannot be made non-blocking" }
+      ],
+      "answer": "a",
+      "explanation": "A `default` case runs immediately when no other case is ready, making the select non-blocking."
+    },
+    {
+      "id": "q3",
+      "type": "multiple-choice",
+      "prompt": "Which three conditions together define a data race? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Two goroutines access the same memory concurrently" },
+        { "id": "b", "text": "At least one access is a write" },
+        { "id": "c", "text": "There is no synchronization ordering the accesses" },
+        { "id": "d", "text": "The accesses are all reads" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "A data race is concurrent access to the same memory, at least one being a write, with no synchronization — undefined behavior. All-reads is safe."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "You detect data races by running your program or tests with the ____ flag.",
+      "answer": ["-race", "race"],
+      "explanation": "The `-race` flag instruments memory accesses and reports races on executed paths; absence of a report is not proof there is no race."
+    },
+    {
+      "id": "q5",
+      "type": "single-choice",
+      "prompt": "What problem does a worker pool solve?",
+      "options": [
+        { "id": "a", "text": "It bounds parallelism by using a fixed set of goroutines to drain a jobs channel" },
+        { "id": "b", "text": "It removes the need for channels" },
+        { "id": "c", "text": "It guarantees deterministic scheduling" },
+        { "id": "d", "text": "It makes all goroutines run on one core" }
+      ],
+      "answer": "a",
+      "explanation": "A worker pool caps how many goroutines run at once, so a huge number of jobs doesn't spawn unbounded goroutines."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each sync tool to what it does.",
+      "pairs": [
+        { "left": "sync.Mutex", "right": "Exclusive access to shared state" },
+        { "left": "sync.RWMutex", "right": "Many readers or one writer" },
+        { "left": "sync.Once", "right": "Run a function exactly once" },
+        { "left": "time.After", "right": "A channel that fires after a duration (for timeouts)" }
+      ],
+      "explanation": "Mutex serializes access, RWMutex favors reads, Once runs setup once, and time.After powers select timeouts."
+    }
+  ]
+}

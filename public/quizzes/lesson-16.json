@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-16",
+  "lessonId": "lesson-16",
+  "title": "A Tour of the Standard Library",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Which two tiny interfaces underpin most I/O in Go?",
+      "options": [
+        { "id": "a", "text": "io.Reader and io.Writer" },
+        { "id": "b", "text": "fmt.Printer and fmt.Scanner" },
+        { "id": "c", "text": "os.File and os.Dir" },
+        { "id": "d", "text": "json.Encoder and json.Decoder" }
+      ],
+      "answer": "a",
+      "explanation": "io.Reader (a Read method) and io.Writer (a Write method) are satisfied by files, buffers, and network connections, so I/O code composes."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "Which struct fields does `encoding/json` marshal and unmarshal?",
+      "options": [
+        { "id": "a", "text": "Only exported (capitalized) fields" },
+        { "id": "b", "text": "All fields including unexported ones" },
+        { "id": "c", "text": "Only fields with a `db` tag" },
+        { "id": "d", "text": "Only pointer fields" }
+      ],
+      "answer": "a",
+      "explanation": "Reflection-based encoders can only see exported fields; unexported fields silently disappear. Use `json:\"...\"` tags for the JSON names."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "To build a string efficiently in a loop, use strings.____ instead of repeated +=.",
+      "answer": ["Builder", "builder"],
+      "explanation": "`strings.Builder` accumulates into one growing buffer, avoiding a new string allocation on every += concatenation."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "In a `time.Format` layout, what reference date do you write the layout as?",
+      "options": [
+        { "id": "a", "text": "Mon Jan 2 15:04:05 MST 2006 (e.g. \"2006-01-02\")" },
+        { "id": "b", "text": "YYYY-MM-DD" },
+        { "id": "c", "text": "The current date" },
+        { "id": "d", "text": "1970-01-01" }
+      ],
+      "answer": "a",
+      "explanation": "Go's time layout is the specific reference time Mon Jan 2 15:04:05 MST 2006; you write the layout by spelling that date/time out."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Match the need to a good standard-library choice — which are correct? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "strconv converts between strings and numbers" },
+        { "id": "b", "text": "bufio.Scanner reads input a line at a time" },
+        { "id": "c", "text": "os.ReadFile reads a whole file into a []byte" },
+        { "id": "d", "text": "fmt is required to open network sockets" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "strconv parses/formats numbers, bufio.Scanner scans lines, and os.ReadFile slurps a file. fmt formats and prints; it doesn't open sockets."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each fmt verb to what it prints.",
+      "pairs": [
+        { "left": "%+v", "right": "A struct with its field names" },
+        { "left": "%T", "right": "The value's Go type" },
+        { "left": "%q", "right": "A double-quoted string" },
+        { "left": "%w", "right": "Wrap an error (in fmt.Errorf)" }
+      ],
+      "explanation": "%+v adds field names, %T shows the type, %q quotes strings, and %w wraps errors so they stay inspectable."
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-11",
+  "lessonId": "lesson-11",
+  "title": "Goroutines and Concurrency",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What happens to other goroutines when `main` returns?",
+      "options": [
+        { "id": "a", "text": "The whole program exits immediately, without waiting for them" },
+        { "id": "b", "text": "The program waits for all goroutines to finish" },
+        { "id": "c", "text": "The other goroutines keep running forever" },
+        { "id": "d", "text": "It causes a panic" }
+      ],
+      "answer": "a",
+      "explanation": "When main returns the program exits at once; you must explicitly wait (e.g. with a WaitGroup or channel) for goroutines you care about."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "Does the `go` statement wait for the function to finish?",
+      "options": [
+        { "id": "a", "text": "No — it starts the goroutine and returns immediately" },
+        { "id": "b", "text": "Yes — it blocks until the function returns" },
+        { "id": "c", "text": "Only for anonymous functions" },
+        { "id": "d", "text": "Only if you add `await`" }
+      ],
+      "answer": "a",
+      "explanation": "`go f()` launches f concurrently and returns immediately; it doesn't even guarantee the goroutine has started running."
+    },
+    {
+      "id": "q3",
+      "type": "ordering",
+      "prompt": "Order the three steps of using a sync.WaitGroup correctly.",
+      "items": [
+        { "id": "add", "text": "wg.Add(1) before launching the goroutine" },
+        { "id": "done", "text": "defer wg.Done() inside the goroutine" },
+        { "id": "wait", "text": "wg.Wait() to block until all finish" }
+      ],
+      "answer": ["add", "done", "wait"],
+      "explanation": "Add before launching (so Wait accounts for it), Done as each finishes, and Wait to block until the counter reaches zero."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "A goroutine that blocks forever and never returns is called a goroutine ____.",
+      "answer": ["leak"],
+      "explanation": "A goroutine leak holds memory forever; every goroutine needs a guaranteed path to completion (a receiver, a closed channel, or a cancellation signal)."
+    },
+    {
+      "id": "q5",
+      "type": "single-choice",
+      "prompt": "What is the difference between concurrency and parallelism?",
+      "options": [
+        { "id": "a", "text": "Concurrency is structuring independent tasks; parallelism is running them simultaneously" },
+        { "id": "b", "text": "They mean exactly the same thing" },
+        { "id": "c", "text": "Concurrency requires multiple CPUs; parallelism does not" },
+        { "id": "d", "text": "Parallelism is a Go-only concept" }
+      ],
+      "answer": "a",
+      "explanation": "Concurrency is a design property (independent tasks that can progress independently); parallelism is executing tasks at the same instant, which needs multiple cores."
+    },
+    {
+      "id": "q6",
+      "type": "multiple-choice",
+      "prompt": "Which statements about goroutines are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "They are cheap, starting with a small stack that grows" },
+        { "id": "b", "text": "The runtime multiplexes them onto OS threads" },
+        { "id": "c", "text": "Their execution order is nondeterministic" },
+        { "id": "d", "text": "Each goroutine is a dedicated OS thread" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Goroutines are lightweight, scheduled M:N onto OS threads, and run in no guaranteed order. They are not one-per-OS-thread."
+    }
+  ]
+}

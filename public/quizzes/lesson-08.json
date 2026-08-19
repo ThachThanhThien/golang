@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-08",
+  "lessonId": "lesson-08",
+  "title": "Packages, Modules, and Program Structure",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "How does Go decide whether a name is visible to other packages?",
+      "options": [
+        { "id": "a", "text": "By capitalization — uppercase is exported, lowercase is private" },
+        { "id": "b", "text": "With `public` and `private` keywords" },
+        { "id": "c", "text": "By an `export` statement" },
+        { "id": "d", "text": "Everything is always visible" }
+      ],
+      "answer": "a",
+      "explanation": "An identifier starting with an uppercase letter is exported; lowercase means unexported. Go has no visibility keywords."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "For a v2 or higher module, where must the major version appear?",
+      "options": [
+        { "id": "a", "text": "In the module path and import path, e.g. `.../v2`" },
+        { "id": "b", "text": "Only in the git tag" },
+        { "id": "c", "text": "Nowhere — versions are automatic" },
+        { "id": "d", "text": "In a separate VERSION file only" }
+      ],
+      "answer": "a",
+      "explanation": "Because a major bump is breaking, v2+ carries the major version in the module path and imports so incompatible versions can coexist."
+    },
+    {
+      "id": "q3",
+      "type": "fill-blank",
+      "prompt": "Packages placed under an ____ directory can only be imported within the same module subtree.",
+      "answer": ["internal", "internal/"],
+      "explanation": "The `internal/` directory is enforced by the compiler: only code rooted at the same parent may import it, keeping implementation details private."
+    },
+    {
+      "id": "q4",
+      "type": "single-choice",
+      "prompt": "What does a blank import `import _ \"pkg\"` do?",
+      "options": [
+        { "id": "a", "text": "Imports the package only for its side effects (its init functions)" },
+        { "id": "b", "text": "Deletes the package" },
+        { "id": "c", "text": "Imports it privately so it can't be used" },
+        { "id": "d", "text": "Causes a compile error" }
+      ],
+      "answer": "a",
+      "explanation": "A blank import runs the package's init functions (e.g. to register a driver) without referencing it directly."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which statements about packages and modules are true? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "`init` runs after package variables and before `main`" },
+        { "id": "b", "text": "Go forbids circular imports" },
+        { "id": "c", "text": "`go.sum` records dependency checksums" },
+        { "id": "d", "text": "Two packages may freely import each other" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "init runs at load before main, import cycles are a compile error, and go.sum verifies dependencies. Mutual imports are not allowed."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each term to its meaning.",
+      "pairs": [
+        { "left": "Package", "right": "A directory of files sharing a package clause" },
+        { "left": "Module", "right": "Versioned packages rooted at a go.mod file" },
+        { "left": "main package", "right": "An executable program with func main()" },
+        { "left": "go.mod", "right": "Declares module path, Go version, dependencies" }
+      ],
+      "explanation": "A package groups files; a module versions packages; the main package is runnable; go.mod defines the module."
+    }
+  ]
+}

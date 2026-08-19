@@ -1,0 +1,410 @@
+[
+  {
+    "id": "lesson-01",
+    "slug": "what-is-go",
+    "title": "What Is Go?",
+    "level": "beginner",
+    "order": 1,
+    "duration": 16,
+    "file": "beginner/what-is-go.md",
+    "summary": "What Go is — a small, fast, statically typed compiled language built at Google for simple, reliable software — why it was created, what it's good at, the shape of a Go program, and an honest look at the trade-offs its designers deliberately made.",
+    "tags": [
+      "foundations",
+      "philosophy",
+      "tooling",
+      "use-cases",
+      "overview"
+    ]
+  },
+  {
+    "id": "lesson-02",
+    "slug": "installing-and-tooling",
+    "title": "Installing Go and the Toolchain",
+    "level": "beginner",
+    "order": 2,
+    "duration": 18,
+    "file": "beginner/installing-and-tooling.md",
+    "summary": "Getting a working Go setup — installing the toolchain, verifying it with go version and go env, creating your first module with go mod init, and the everyday go subcommands (run, build, fmt, vet, test) plus the editor tooling that make Go pleasant to work in.",
+    "tags": [
+      "setup",
+      "go-command",
+      "gofmt",
+      "workspace",
+      "modules"
+    ]
+  },
+  {
+    "id": "lesson-03",
+    "slug": "variables-and-types",
+    "title": "Variables, Constants, and Basic Types",
+    "level": "beginner",
+    "order": 3,
+    "duration": 20,
+    "file": "beginner/variables-and-types.md",
+    "summary": "How Go stores data — declaring variables with var and :=, the basic types (bool, string, numeric types, byte, rune), zero values, type inference and explicit conversions, and constants including the iota generator for enumerations.",
+    "tags": [
+      "variables",
+      "types",
+      "constants",
+      "zero-values",
+      "iota"
+    ]
+  },
+  {
+    "id": "lesson-04",
+    "slug": "functions",
+    "title": "Functions and Multiple Returns",
+    "level": "beginner",
+    "order": 4,
+    "duration": 18,
+    "file": "beginner/functions.md",
+    "summary": "How Go organizes behavior into functions — declaring them, returning multiple values (the idiom behind error handling), named returns, variadic parameters, functions as first-class values and closures, and defer for guaranteed cleanup.",
+    "tags": [
+      "functions",
+      "multiple-returns",
+      "defer",
+      "closures",
+      "variadic"
+    ]
+  },
+  {
+    "id": "lesson-05",
+    "slug": "control-flow",
+    "title": "Control Flow: if, for, switch",
+    "level": "beginner",
+    "order": 5,
+    "duration": 18,
+    "file": "beginner/control-flow.md",
+    "summary": "Making decisions and repeating work in Go — if with an optional init statement, the single for loop in all its forms (including range over slices, maps, and strings), and switch with its no-fallthrough default and type-free multi-way form.",
+    "tags": [
+      "control-flow",
+      "for",
+      "switch",
+      "if",
+      "loops"
+    ]
+  },
+  {
+    "id": "lesson-06",
+    "slug": "collections",
+    "title": "Arrays, Slices, and Maps",
+    "level": "beginner",
+    "order": 6,
+    "duration": 22,
+    "file": "beginner/collections.md",
+    "summary": "Go's built-in collections — fixed-size arrays that copy by value, slices (the workhorse) with their pointer/length/capacity header and the append and aliasing rules that trip people up, and maps for key/value lookup with the comma-ok idiom and nil-map pitfall.",
+    "tags": [
+      "slices",
+      "maps",
+      "arrays",
+      "append",
+      "collections"
+    ]
+  },
+  {
+    "id": "lesson-07",
+    "slug": "structs-and-methods",
+    "title": "Structs and Methods",
+    "level": "beginner",
+    "order": 7,
+    "duration": 20,
+    "file": "beginner/structs-and-methods.md",
+    "summary": "Modeling data and behavior in Go — defining structs and creating them, attaching methods with value versus pointer receivers (and when each matters), constructor conventions, and building bigger types by embedding smaller ones instead of using inheritance.",
+    "tags": [
+      "structs",
+      "methods",
+      "receivers",
+      "embedding",
+      "composition"
+    ]
+  },
+  {
+    "id": "lesson-08",
+    "slug": "packages-and-modules",
+    "title": "Packages, Modules, and Program Structure",
+    "level": "beginner",
+    "order": 8,
+    "duration": 20,
+    "file": "beginner/packages-and-modules.md",
+    "summary": "How Go code is organized above the file level — packages as directories, exported versus unexported names, imports and the main package, modules and semantic versioning for dependencies, the init function, and the conventional project layout with internal and cmd directories.",
+    "tags": [
+      "packages",
+      "modules",
+      "imports",
+      "exports",
+      "project-layout"
+    ]
+  },
+  {
+    "id": "lesson-09",
+    "slug": "interfaces",
+    "title": "Interfaces and Composition",
+    "level": "intermediate",
+    "order": 9,
+    "duration": 20,
+    "file": "intermediate/interfaces.md",
+    "summary": "Go's interfaces — sets of method signatures satisfied implicitly, how interface values hold a (type, value) pair, the empty interface (any), type assertions and type switches, and the famous typed-nil gotcha, plus the idiom of accepting interfaces and returning concrete types.",
+    "tags": [
+      "interfaces",
+      "polymorphism",
+      "composition",
+      "type-assertions",
+      "any"
+    ]
+  },
+  {
+    "id": "lesson-10",
+    "slug": "errors",
+    "title": "Errors and Error Handling",
+    "level": "intermediate",
+    "order": 10,
+    "duration": 20,
+    "file": "intermediate/errors.md",
+    "summary": "How Go handles failure — errors as ordinary values returned from functions, creating and wrapping them with fmt.Errorf and %w, inspecting them with errors.Is and errors.As, defining custom error types, and the narrow role of panic and recover.",
+    "tags": [
+      "errors",
+      "error-wrapping",
+      "panic",
+      "recover",
+      "errors-is-as"
+    ]
+  },
+  {
+    "id": "lesson-11",
+    "slug": "goroutines",
+    "title": "Goroutines and Concurrency",
+    "level": "intermediate",
+    "order": 11,
+    "duration": 20,
+    "file": "intermediate/goroutines.md",
+    "summary": "Go's headline feature — goroutines, lightweight threads started with the go keyword and multiplexed onto OS threads by the runtime, why the main goroutine ending stops everything, coordinating with sync.WaitGroup, and the difference between concurrency and parallelism.",
+    "tags": [
+      "goroutines",
+      "concurrency",
+      "scheduler",
+      "waitgroup",
+      "go-statement"
+    ]
+  },
+  {
+    "id": "lesson-12",
+    "slug": "channels",
+    "title": "Channels",
+    "level": "intermediate",
+    "order": 12,
+    "duration": 22,
+    "file": "intermediate/channels.md",
+    "summary": "How goroutines communicate — typed channels for sending and receiving values, blocking semantics of unbuffered versus buffered channels, closing channels and the receive-from-closed rule, ranging over a channel, and the panic-inducing rules you must respect.",
+    "tags": [
+      "channels",
+      "communication",
+      "buffered",
+      "closing",
+      "range"
+    ]
+  },
+  {
+    "id": "lesson-13",
+    "slug": "concurrency-patterns",
+    "title": "Concurrency Patterns: select, sync, and Races",
+    "level": "intermediate",
+    "order": 13,
+    "duration": 24,
+    "file": "intermediate/concurrency-patterns.md",
+    "summary": "Coordinating concurrent work — the select statement for multiplexing channels, timeouts and non-blocking operations, protecting shared state with sync.Mutex, understanding and detecting data races with the race detector, and the worker-pool pattern for bounded parallelism.",
+    "tags": [
+      "select",
+      "sync",
+      "mutex",
+      "race-detector",
+      "worker-pool"
+    ]
+  },
+  {
+    "id": "lesson-14",
+    "slug": "testing",
+    "title": "Testing, Benchmarks, and Coverage",
+    "level": "intermediate",
+    "order": 14,
+    "duration": 20,
+    "file": "intermediate/testing.md",
+    "summary": "Go's built-in testing toolkit — writing tests in _test.go files with the testing package, the idiomatic table-driven style with subtests, measuring performance with benchmarks, verifying documentation with example tests, and reading coverage.",
+    "tags": [
+      "testing",
+      "benchmarks",
+      "table-driven",
+      "coverage",
+      "examples"
+    ]
+  },
+  {
+    "id": "lesson-15",
+    "slug": "generics",
+    "title": "Generics and Type Parameters",
+    "level": "intermediate",
+    "order": 15,
+    "duration": 20,
+    "file": "intermediate/generics.md",
+    "summary": "Writing code that works across types without giving up type safety — type parameters and constraints (added in Go 1.18), the any and comparable constraints, type sets with unions and the ~ approximation, generic data structures, call-site inference, and when generics are the right tool.",
+    "tags": [
+      "generics",
+      "type-parameters",
+      "constraints",
+      "comparable",
+      "any"
+    ]
+  },
+  {
+    "id": "lesson-16",
+    "slug": "standard-library",
+    "title": "A Tour of the Standard Library",
+    "level": "intermediate",
+    "order": 16,
+    "duration": 22,
+    "file": "intermediate/standard-library.md",
+    "summary": "The batteries that ship with Go — formatting with fmt, text handling with strings/strconv/strings.Builder, the io.Reader/Writer abstractions and bufio, files and environment with os, time, and encoding/decoding JSON, with the small-composable-interfaces philosophy that ties them together.",
+    "tags": [
+      "standard-library",
+      "fmt",
+      "strings",
+      "io",
+      "encoding-json"
+    ]
+  },
+  {
+    "id": "lesson-17",
+    "slug": "context",
+    "title": "Context, Cancellation, and Timeouts",
+    "level": "advanced",
+    "order": 17,
+    "duration": 20,
+    "file": "advanced/context.md",
+    "summary": "The context package — how Go propagates cancellation, deadlines, and request-scoped values across API boundaries and goroutines, why you must always call the cancel function, how to react to ctx.Done(), and the conventions that keep context usage clean.",
+    "tags": [
+      "context",
+      "cancellation",
+      "timeouts",
+      "deadlines",
+      "request-scope"
+    ]
+  },
+  {
+    "id": "lesson-18",
+    "slug": "http-services",
+    "title": "Building HTTP Services with net/http",
+    "level": "advanced",
+    "order": 18,
+    "duration": 24,
+    "file": "advanced/http-services.md",
+    "summary": "Building web services with Go's standard net/http — handlers and the Handler interface, routing with ServeMux (including Go 1.22 method-and-path patterns), reading and writing JSON, middleware by wrapping handlers, and configuring a production http.Server with timeouts.",
+    "tags": [
+      "net-http",
+      "handlers",
+      "servemux",
+      "middleware",
+      "json-api"
+    ]
+  },
+  {
+    "id": "lesson-19",
+    "slug": "memory-and-performance",
+    "title": "The Memory Model, Escape Analysis, and Performance",
+    "level": "advanced",
+    "order": 19,
+    "duration": 22,
+    "file": "advanced/memory-and-performance.md",
+    "summary": "How Go manages memory and where performance comes from — stack versus heap and the escape analysis that decides, the concurrent garbage collector and GOGC, the memory model's happens-before rules, and a measured, non-premature approach to reducing allocations.",
+    "tags": [
+      "memory-model",
+      "escape-analysis",
+      "gc",
+      "performance",
+      "allocations"
+    ]
+  },
+  {
+    "id": "lesson-20",
+    "slug": "profiling",
+    "title": "Profiling and Optimization with pprof",
+    "level": "advanced",
+    "order": 20,
+    "duration": 22,
+    "file": "advanced/profiling.md",
+    "summary": "Finding where a Go program actually spends time and memory — collecting CPU and heap profiles from benchmarks or a running server, exploring them with go tool pprof (top, list, web), and following the measure-profile-fix-remeasure loop instead of guessing.",
+    "tags": [
+      "profiling",
+      "pprof",
+      "benchmarks",
+      "cpu",
+      "memory"
+    ]
+  },
+  {
+    "id": "lesson-21",
+    "slug": "reflection-and-tags",
+    "title": "Reflection and Struct Tags",
+    "level": "advanced",
+    "order": 21,
+    "duration": 20,
+    "file": "advanced/reflection-and-tags.md",
+    "summary": "Inspecting and manipulating values at runtime — the reflect package's Type and Value, the difference between Kind and Type, reading struct fields and tags (how encoding/json works), the settability rule for changing values, and why reflection is powerful but should be a last resort.",
+    "tags": [
+      "reflection",
+      "struct-tags",
+      "reflect",
+      "encoding",
+      "interfaces"
+    ]
+  },
+  {
+    "id": "lesson-22",
+    "slug": "modules-and-distribution",
+    "title": "Modules, Versioning, and Distributing Programs",
+    "level": "advanced",
+    "order": 22,
+    "duration": 22,
+    "file": "advanced/modules-and-distribution.md",
+    "summary": "Shipping Go code — publishing a module with semantic version tags and the v2+ import-path rule, installing tools with go install, cross-compiling to other platforms with GOOS/GOARCH, static builds, and how the module proxy and checksum database keep dependencies reproducible and verified.",
+    "tags": [
+      "modules",
+      "versioning",
+      "semver",
+      "cross-compilation",
+      "go-install"
+    ]
+  },
+  {
+    "id": "lesson-23",
+    "slug": "production-services",
+    "title": "Production Go: Config, Logging, and Graceful Shutdown",
+    "level": "advanced",
+    "order": 23,
+    "duration": 22,
+    "file": "advanced/production-services.md",
+    "summary": "Taking a Go service to production — reading configuration from flags and environment variables, structured logging with log/slog, and shutting down gracefully on a signal so in-flight requests finish and resources are released cleanly.",
+    "tags": [
+      "production",
+      "logging",
+      "configuration",
+      "graceful-shutdown",
+      "slog"
+    ]
+  },
+  {
+    "id": "lesson-24",
+    "slug": "capstone-url-health-checker",
+    "title": "Capstone: A Concurrent URL Health Checker",
+    "level": "advanced",
+    "order": 24,
+    "duration": 26,
+    "file": "advanced/capstone-url-health-checker.md",
+    "summary": "A capstone that combines the whole course — build a command-line tool that checks many URLs concurrently using a bounded worker pool, per-request timeouts via context, the standard http.Client, structured results, a meaningful exit code, and a test with httptest.",
+    "tags": [
+      "capstone",
+      "concurrency",
+      "cli",
+      "context",
+      "http-client"
+    ]
+  }
+]

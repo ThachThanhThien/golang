@@ -1,0 +1,80 @@
+{
+  "id": "quiz-lesson-23",
+  "lessonId": "lesson-23",
+  "title": "Production Go: Config, Logging, and Graceful Shutdown",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "Where should a production service get its configuration?",
+      "options": [
+        { "id": "a", "text": "From flags and environment variables, not hardcoded" },
+        { "id": "b", "text": "Hardcoded in the source and recompiled to change it" },
+        { "id": "c", "text": "From a random number generator" },
+        { "id": "d", "text": "Only from command-line flags, never environment" }
+      ],
+      "answer": "a",
+      "explanation": "Config (and secrets) should come from flags and environment so behavior changes per environment without recompiling; env suits deploy config, flags suit local overrides."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "What does the standard `log/slog` package provide, and since when?",
+      "options": [
+        { "id": "a", "text": "Structured (key/value) logging, in the standard library since Go 1.21" },
+        { "id": "b", "text": "A web framework since Go 1.0" },
+        { "id": "c", "text": "A testing library" },
+        { "id": "d", "text": "A replacement for fmt.Println only" }
+      ],
+      "answer": "a",
+      "explanation": "log/slog (Go 1.21+) emits structured logs as key/value pairs, which log systems can index and query."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "What does http.Server.Shutdown(ctx) do that Close does not?",
+      "options": [
+        { "id": "a", "text": "It stops accepting new connections and lets in-flight requests finish (up to the deadline)" },
+        { "id": "b", "text": "It restarts the server" },
+        { "id": "c", "text": "It deletes all logs" },
+        { "id": "d", "text": "Nothing — they are identical" }
+      ],
+      "answer": "a",
+      "explanation": "Shutdown drains active requests gracefully within the context deadline; Close terminates connections abruptly."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "You turn SIGINT/SIGTERM into a cancellable context with signal.____.",
+      "answer": ["NotifyContext", "notifycontext"],
+      "explanation": "signal.NotifyContext returns a context that is cancelled when one of the given signals arrives, so you can wait on ctx.Done() to begin shutdown."
+    },
+    {
+      "id": "q5",
+      "type": "single-choice",
+      "prompt": "Why must you ignore http.ErrServerClosed from ListenAndServe?",
+      "options": [
+        { "id": "a", "text": "It's the normal result of a graceful shutdown, not a failure" },
+        { "id": "b", "text": "It never actually occurs" },
+        { "id": "c", "text": "It means the port is in use" },
+        { "id": "d", "text": "It indicates a panic" }
+      ],
+      "answer": "a",
+      "explanation": "A graceful Shutdown causes ListenAndServe to return http.ErrServerClosed; treating it as fatal makes every clean shutdown look like a crash."
+    },
+    {
+      "id": "q6",
+      "type": "multiple-choice",
+      "prompt": "Which are good production practices? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Give Shutdown a bounded timeout so it can't hang forever" },
+        { "id": "b", "text": "Expose a cheap health-check endpoint for probes" },
+        { "id": "c", "text": "Log as JSON in production with log/slog" },
+        { "id": "d", "text": "Print unstructured text logs for machine querying" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Bounded shutdown, a lightweight health check, and structured JSON logs are all good practice; unstructured text is hard for tools to query."
+    }
+  ]
+}

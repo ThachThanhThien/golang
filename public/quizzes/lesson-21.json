@@ -1,0 +1,79 @@
+{
+  "id": "quiz-lesson-21",
+  "lessonId": "lesson-21",
+  "title": "Reflection and Struct Tags",
+  "passingScore": 60,
+  "questions": [
+    {
+      "id": "q1",
+      "type": "single-choice",
+      "prompt": "What is the difference between a value's Type and its Kind?",
+      "options": [
+        { "id": "a", "text": "Type is the specific named type; Kind is the underlying category" },
+        { "id": "b", "text": "They are always identical" },
+        { "id": "c", "text": "Kind is the exact type; Type is the category" },
+        { "id": "d", "text": "Kind only exists for structs" }
+      ],
+      "answer": "a",
+      "explanation": "Type is e.g. main.Celsius or []int; Kind is the broad category like Float64 or Slice. You switch on Kind to handle categories generically."
+    },
+    {
+      "id": "q2",
+      "type": "single-choice",
+      "prompt": "How does encoding/json know a struct field's JSON name?",
+      "options": [
+        { "id": "a", "text": "It reads the field's struct tag via reflection (field.Tag.Get(\"json\"))" },
+        { "id": "b", "text": "It uses the field's memory offset" },
+        { "id": "c", "text": "It requires a separate schema file" },
+        { "id": "d", "text": "It lowercases every field name" }
+      ],
+      "answer": "a",
+      "explanation": "Encoders use reflection to read the json struct tag, and only see exported fields."
+    },
+    {
+      "id": "q3",
+      "type": "single-choice",
+      "prompt": "To modify a value through reflection, what must be true, and how do you achieve it?",
+      "options": [
+        { "id": "a", "text": "The Value must be settable/addressable — reflect through a pointer and use Elem()" },
+        { "id": "b", "text": "Nothing special — any reflect.Value can be set" },
+        { "id": "c", "text": "The value must be a string" },
+        { "id": "d", "text": "You must call reflect.Freeze first" }
+      ],
+      "answer": "a",
+      "explanation": "reflect.ValueOf(x) gives an unsettable copy; to mutate, use reflect.ValueOf(&x).Elem(), which is addressable and settable."
+    },
+    {
+      "id": "q4",
+      "type": "fill-blank",
+      "prompt": "Reflection is powerful but moves type errors from compile time to ____ time.",
+      "answer": ["run", "runtime", "run-time"],
+      "explanation": "A wrong reflective operation panics at runtime, so reflection sacrifices the compile-time safety of ordinary code — prefer interfaces and generics."
+    },
+    {
+      "id": "q5",
+      "type": "multiple-choice",
+      "prompt": "Which are good guidelines for using reflection? Select all that apply.",
+      "options": [
+        { "id": "a", "text": "Prefer interfaces and generics; use reflection as a last resort" },
+        { "id": "b", "text": "Switch on Kind to handle type categories" },
+        { "id": "c", "text": "Reflect through a pointer when you need to set values" },
+        { "id": "d", "text": "Use reflection everywhere for flexibility" }
+      ],
+      "answer": ["a", "b", "c"],
+      "explanation": "Reflection is slower, runtime-checked, and less readable, so reserve it for genuinely unknown types; interfaces and generics are usually better."
+    },
+    {
+      "id": "q6",
+      "type": "match-pair",
+      "prompt": "Match each reflect concept to its meaning.",
+      "pairs": [
+        { "left": "reflect.TypeOf", "right": "Get a value's type information" },
+        { "left": "reflect.ValueOf", "right": "Get the runtime value to inspect" },
+        { "left": "Tag.Get(\"json\")", "right": "Read a struct field's json tag" },
+        { "left": "Elem()", "right": "Dereference a pointer Value to a settable one" }
+      ],
+      "explanation": "TypeOf/ValueOf are the entry points, Tag.Get reads tags, and Elem() reaches the settable value behind a pointer."
+    }
+  ]
+}
